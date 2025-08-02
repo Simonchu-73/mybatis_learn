@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="teacher">
+    <insert id="insertObject" parameterType="com.xzit.model.Teacher">
+        INSERT INTO teacher VALUES (default,#{name},#{addr},#{age},#{job},#{sal})
+    </insert>
+
+    <select id="selectListOfJiangSu" resultType="com.xzit.model.Teacher" >
+        SELECT * FROM teacher WHERE addr LIKE "江苏省%"
+    </select>
+    <select id="selectList" resultType="com.xzit.model.Teacher" >
+        SELECT * FROM teacher
+    </select>
+
+    <select id="getAvgSalOfJiLin" resultType="double">
+        SELECT avg(sal) FROM teacher WHERE addr LIKE "吉林省%"
+    </select>
+
+    <update id="updateJob">
+        UPDATE teacher SET job="销售经理" WHERE age>30
+    </update>
+
+    <delete id="delete">
+        DELETE FROM teacher WHERE age>35
+    </delete>
+</mapper>

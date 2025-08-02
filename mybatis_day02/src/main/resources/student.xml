@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="student">
+    <!--随堂练习部分-->
+    <insert id="insert">
+        insert into student
+        values (default, '王五', '25', '男')
+    </insert>
+    <insert id="insertObject" parameterType="com.xzit.model.Student">
+        insert into student
+        values (default, #{name}, #{age}, #{gender})
+        /* # $有区别
+           为了判断区别 配置日志
+           */
+    </insert>
+    <insert id="insertAndGetId" parameterType="com.xzit.model.Student">
+        <selectKey keyProperty="id" keyColumn="id" resultType="int">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into student values (default,#{name},#{age},#{gender})
+    </insert>
+    <delete id="delete" parameterType="int">
+        DELETE
+        FROM student
+        WHERE id = #{id}
+    </delete>
+    <select id="selectById" parameterType="int" resultType="com.xzit.model.Student">
+        SELECT * FROM student WHERE id=#{id}
+    </select>
+</mapper>
