@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xzit.mapper.TeacherMapper">
+    <insert id="insert">
+        INSERT INTO teacher VALUES
+        <foreach collection="list" item="teacher" separator=",">
+            (default,#{teacher.name},#{teacher.addr},#{teacher.age},#{teacher.job},#{teacher.sal})
+        </foreach>
+    </insert>
+    <delete id="deleteByCheck">
+        DELETE FROM teacher WHERE
+        <foreach collection="list" item="id" separator="," open="id in (" close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <update id="updateJob">
+        <bind name="condition" value="city+'%'"/>
+        UPDATE teacher
+        SET job = '客服老师' , sal=12000
+        <where>
+            <if test="city!=null and city!=''">
+                AND addr LIKE #{condition}
+            </if>
+        </where>
+    </update>
+    <select id="getAvgSalOfCity" parameterType="String" resultType="double">
+        <bind name="condition" value="city+'%'"/>
+        SELECT avg(sal) FROM teacher
+        <where>
+            <if test="city!=null and city!=''">
+                AND addr LIKE #{condition}
+            </if>
+        </where>
+    </select>
+    <select id="selectListOfCity" resultType="Teacher" parameterType="String">
+        <bind name="condition" value="city+'%'"/>
+        SELECT * FROM teacher
+        <where>
+            <if test="city!=null and city!=''">
+                AND addr LIKE #{condition}
+            </if>
+        </where>
+    </select>
+    <select id="selectList" resultType="Teacher">
+        SELECT *
+        FROM teacher
+    </select>
+</mapper>
