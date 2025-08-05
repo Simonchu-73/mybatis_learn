@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<mapper namespace="com.xzit.mapper.StudentMapper">
+    <select id="selectList" resultType="com.xzit.model.Student">
+        SELECT * FROM student
+    </select>
+</mapper>
