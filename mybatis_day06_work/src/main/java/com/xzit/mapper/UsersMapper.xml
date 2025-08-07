@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xzit.mapper.UsersMapper">
+    <resultMap id="usersWithLogin" type="Users" autoMapping="true">
+        <id property="uid" column="uid"></id>
+        <collection property="roles" ofType="Role" autoMapping="true"></collection>
+        <collection property="permissions" ofType="Permission" autoMapping="true"></collection>
+    </resultMap>
+
+    <select id="login" resultMap="usersWithLogin" parameterType="Users">
+        SELECT *
+        FROM users u
+                 JOIN users_role ur ON u.uid = ur.uid
+                 JOIN role r ON ur.rid = r.rid
+                 JOIN role_permission rp ON rp.rid = r.rid
+                 JOIN permission p ON p.pid = rp.pid
+        WHERE u.uname=#{uname} AND u.pwd=#{pwd}
+    </select>
+    <update id="updateLastTime" parameterType="Users">
+    UPDATE users
+    SET lasttime=#{lastTime}
+    WHERE uid=#{uid}
+    </update>
+</mapper>
